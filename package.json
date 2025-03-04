@@ -27,7 +27,7 @@
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^10.0.0",
 		"eslint-plugin-prettier": "^5.0.0",
-		"eslint-webpack-plugin": "^4.0.1",
+		"eslint-webpack-plugin": "^5.0.0",
 		"file-loader": "^6.2.0",
 		"glob": "^11.0.0",
 		"glob-all": "^3.3.1",
