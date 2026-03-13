@@ -49,6 +49,6 @@
 		"ejs": "^5.0.0",
 		"template-ejs-loader": "^0.9.4",
 		"webpack": "^5.95.0",
-		"webpack-cli": "^6.0.0"
+		"webpack-cli": "^7.0.0"
 	}
 }
