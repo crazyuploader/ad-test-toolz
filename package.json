@@ -38,7 +38,7 @@
 		"postcss": "^8.4.31",
 		"prettier": "^3.0.0",
 		"purgecss-webpack-plugin": "^8.0.0",
-		"reachable-url": "^1.7.1",
+		"reachable-url": "^2.0.0",
 		"sass": "^1.63.6",
 		"sass-loader": "^17.0.0",
 		"style-loader": "^4.0.0",
