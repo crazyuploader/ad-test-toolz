@@ -7,7 +7,7 @@
 
 ! This list cover all the tests on https://d3ward.github.io/toolz/adblock
 ! Type : Stable
-! Entries : 234
+! Entries : 230
 ! Updated On: 20/11/2026
 ! Created by: d3ward
 
@@ -59,11 +59,9 @@
 ||adtech.yahooinc.com^
 
 ! --- Yandex
-||extmaps-api.yandex.net^
 ||appmetrica.yandex.ru^
 ||adfstat.yandex.ru^
 ||metrika.yandex.ru^
-||offerwall.yandex.net^
 ||adfox.yandex.ru^
 ||report.appmetrica.yandex.net^
 ||startup.mobile.yandex.net^
@@ -131,10 +129,8 @@
 ! --- MouseFlow
 ||mouseflow.com^
 ||cdn.mouseflow.com^
-||o2.mouseflow.com^
 ||api.mouseflow.com^
 ||tools.mouseflow.com^
-||cdn-test.mouseflow.com^
 
 ! --- Luckyorange
 ||luckyorange.com^

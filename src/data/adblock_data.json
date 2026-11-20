@@ -43,11 +43,9 @@
 			"adtech.yahooinc.com"
 		],
 		"Yandex": [
-			"extmaps-api.yandex.net",
 			"appmetrica.yandex.ru",
 			"adfstat.yandex.ru",
 			"metrika.yandex.ru",
-			"offerwall.yandex.net",
 			"adfox.yandex.ru",
 			"report.appmetrica.yandex.net",
 			"startup.mobile.yandex.net"
@@ -109,10 +107,8 @@
 		"MouseFlow": [
 			"mouseflow.com",
 			"cdn.mouseflow.com",
-			"o2.mouseflow.com",
 			"api.mouseflow.com",
-			"tools.mouseflow.com",
-			"cdn-test.mouseflow.com"
+			"tools.mouseflow.com"
 		],
 		"Luckyorange": [
 			"luckyorange.com",
