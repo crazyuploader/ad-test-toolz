@@ -5,7 +5,7 @@
 ! License: CC BY-NC-SA
 ! Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host.adblock
 
-! This list covers all the tests on https://ad-test-toolz.pages.dev/adblock
+! This list covers all the tests on https://ad-test.devjugal.com/adblock
 ! Type : Stable
 ! Entries : 230
 ! Updated On: 20/11/2026
@@ -357,7 +357,7 @@
 ||ib.isappcloud.com^
 ||ape-androids.isappcloud.com^
 
-*$3p,domain=ad-test-toolz.pages.dev
-/pagead.js$domain=ad-test-toolz.pages.dev
-@@*$redirect-rule,domain=ad-test-toolz.pages.dev
-ad-test-toolz.pages.dev##.textads
+*$3p,domain=ad-test.devjugal.com
+/pagead.js$domain=ad-test.devjugal.com
+@@*$redirect-rule,domain=ad-test.devjugal.com
+ad-test.devjugal.com##.textads

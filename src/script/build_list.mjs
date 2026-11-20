@@ -6,7 +6,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 const DATA = new URL('../data/adblock_data.json', import.meta.url)
 // The site that runs the test. The cosmetic and script rules in the adblock
 // list apply only on this domain.
-const SITE = 'ad-test-toolz.pages.dev'
+const SITE = 'ad-test.devjugal.com'
 
 function center(s, max, c) {
 	return s

@@ -5,7 +5,7 @@
 # License: CC BY-NC-SA
 # Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host.txt
 
-# This list covers all the tests on https://ad-test-toolz.pages.dev/adblock
+# This list covers all the tests on https://ad-test.devjugal.com/adblock
 # Type : Stable
 # Entries : 230
 # Updated On: 20/11/2026

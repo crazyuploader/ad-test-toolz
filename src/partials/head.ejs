@@ -4,13 +4,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#161625">
 
-	<link rel="icon" href="./assets/<%=page%>/icon.svg" type="image/svg+xml">
-	<% if (page == 'toolz') { %>
-		<link rel="canonical" href="https://ad-test-toolz.pages.dev/">
-	<% } %>
-	<% if (page != 'toolz') { %>
-		<link rel="canonical" href="https://ad-test-toolz.pages.dev/<%=page%>">
-	<% } %>
+	<link rel="icon" href="/assets/<%=page%>/icon.svg" type="image/svg+xml">
+	<% const path = { adblock: '', toolz: 'tools' }[page] ?? page %>
+	<link rel="canonical" href="https://ad-test.devjugal.com/<%= path %>">
     <title><%= title %></title>
   	<meta name="author" content="Ursu Eduard Cornelius">
 	<meta name="description" content="<%= description %>">
@@ -18,7 +14,7 @@
 	<!-- Google / Search Engine Tags -->
 	<meta itemprop="name" content="<%= title %>">
 	<meta itemprop="description" content="<%= description %>">
-	<meta itemprop="image" content="https://ad-test-toolz.pages.dev/assets/preview_toolz.png">
+	<meta itemprop="image" content="https://ad-test.devjugal.com/assets/preview_toolz.png">
 	<!-- Open Graph Tags -->
 	<meta property="og:url" content="<%= url %>">
 	<meta property="og:type" content="website">

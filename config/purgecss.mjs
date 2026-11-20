@@ -10,7 +10,7 @@ const pages = config.pages
 const options = pages.map((page) => {
 	const css = path.join(config.build, `css/${page}.css`)
 	const content = [
-		path.join(config.build, `${page}.html`),
+		path.join(config.build, config.html(page)),
 		path.join(config.build, `js/${page}.js`)
 	]
 	return {
