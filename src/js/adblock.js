@@ -29,8 +29,13 @@ if (!settings || settings['showCF'] == undefined) {
 	settings = {
 		collapseAll: true,
 		showCF: true,
-		showSL: true
+		showSL: true,
+		showRegional: true
 	}
+	LS.set('settings', settings)
+}
+if (settings.showRegional === undefined) {
+	settings.showRegional = true
 	LS.set('settings', settings)
 }
 
@@ -86,10 +91,11 @@ async function copyToClip(str) {
 		snackbar.show('URL copied to clipboard !')
 	}
 }
-var abt = {
+const abt = {
 	total: 0,
 	blocked: 0,
 	notblocked: 0,
+	inconclusive: 0,
 	cosmetic_test: {
 		static: null,
 		dynamic: null
@@ -104,60 +110,111 @@ var abt = {
 const testWrapper = document.getElementById('test') //Tests wrapper
 
 //--------------------------------------------------
-//Function to check a host blocking status
-async function check_url(url, div, parent, k1, k2) {
-	const controller = new AbortController()
-	const config = {
-		...{
-			method: 'HEAD',
-			mode: 'no-cors'
-		},
-		signal: controller.signal
+// Host checks
+//
+// A host is blocked when the request fails, or when the blocker sends back
+// its own same-origin 200 response. A request fails, for example, when DNS
+// returns 0.0.0.0 or an extension cancels the request. Any other response
+// means that the host is not blocked.
+//
+// The `pnpm check-hosts` script makes sure that each host in the list gives
+// a valid HTTPS response. Thus a failed request here comes from the blocker
+// and not from a dead host.
+const PROBE_TIMEOUT = 8000
+// Control hosts. Common block lists do not block them. If no control host
+// answers, the network is down, and a failed host check tells us nothing.
+const CONTROL_URLS = [
+	'https://www.gstatic.com/generate_204',
+	'https://cloudflare.com/cdn-cgi/trace'
+]
+let networkOk = true
+
+// The test sends at most MAX_PARALLEL requests at the same time. Without a
+// limit, the browser queues the requests, and the time in the queue counts
+// toward the timeout. Then a slow queue looks like a block.
+const MAX_PARALLEL = 16
+let running = 0
+const waiting = []
+
+async function withSlot(task) {
+	if (running >= MAX_PARALLEL)
+		await new Promise((resolve) => waiting.push(resolve))
+	running += 1
+	try {
+		return await task()
+	} finally {
+		running -= 1
+		waiting.shift()?.()
 	}
-	const timeout = setTimeout(() => {
-		controller.abort()
-	}, 8000)
+}
+
+async function probe(url) {
+	const controller = new AbortController()
+	const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT)
+	try {
+		const response = await fetch(url, {
+			method: 'HEAD',
+			mode: 'no-cors',
+			cache: 'no-store',
+			signal: controller.signal
+		})
+		return { response }
+	} catch (error) {
+		return { error, timedOut: controller.signal.aborted }
+	} finally {
+		clearTimeout(timer)
+	}
+}
+
+async function checkNetwork() {
+	const answers = await Promise.all(CONTROL_URLS.map((u) => probe(u)))
+	networkOk = answers.some((answer) => answer.response)
+	if (!networkOk) {
+		tslog +=
+			'<br> Network check failed: no control host answered. Failed host checks are shown as inconclusive.'
+		snackbar.show('Network check failed: results are not reliable')
+	}
+}
+
+async function check_url(url, div, parent, k1, k2) {
 	abt.total += 1
-	var hostDiv = document.createElement('div')
+	const hostDiv = document.createElement('div')
 	hostDiv.onclick = () => {
 		copyToClip(url)
 	}
 	div.appendChild(hostDiv)
-	try {
-		await fetch(
-			'https://' + url + '/fakepage.html',
-			config,
-			timeout,
-			parent,
-			div
-		)
-			.then((response) => {
-				console.log(response)
-				if (response.type == 'basic' && response.status == 200) {
-					hostDiv.innerHTML = icons['v'] + '<span>' + url + '</span>'
-					abt.blocked += 1
-					Object.assign(abt.hosts[k1][k2], { [url]: true })
-					tslog += '<br> ' + url + ' - blocked'
-				} else {
-					//Response was received --> ads are NOT blocked
-					parent.style.background = 'var(--red)'
-					hostDiv.innerHTML = icons['x'] + '<span>' + url + '</span>'
-					abt.notblocked += 1
-					Object.assign(abt.hosts[k1][k2], { [url]: false })
-					tslog += '<br> ' + url + ' - not blocked'
-				}
-			})
-			.catch((error) => {
-				console.log(error)
-				console.log(error.message)
-				hostDiv.innerHTML = icons['v'] + '<span>' + url + '</span>'
-				abt.blocked += 1
-				Object.assign(abt.hosts[k1][k2], { [url]: true })
-				tslog += '<br> ' + url + ' - blocked'
-				//No response / error  --> ads are blocked
-			})
-	} catch (error) {
-		console.log(error)
+	const target = `https://${url}/fakepage.html`
+	let result = await withSlot(() => probe(target))
+	// Send the request again one time after a failure. Then one dropped
+	// connection or one slow server does not count as a block.
+	if (result.error) result = await withSlot(() => probe(target))
+
+	const { response, error, timedOut } = result
+	const blockedByRedirect =
+		response?.type === 'basic' && response?.status === 200
+	if (response && !blockedByRedirect) {
+		// Response was received --> ads are NOT blocked
+		parent.style.background = 'var(--red)'
+		hostDiv.innerHTML = `${icons.x}<span>${url}</span>`
+		abt.notblocked += 1
+		Object.assign(abt.hosts[k1][k2], { [url]: false })
+		tslog += `<br> ${url} - not blocked`
+	} else if (error && (timedOut || !networkOk)) {
+		// A blocker fails a request fast (0.0.0.0, NXDOMAIN, cancelled
+		// request). A timeout, or a failure while the network is down, does
+		// not show a block.
+		const reason = networkOk ? 'timeout' : 'network down'
+		hostDiv.innerHTML = `${icons.cdot}<span>${url}</span>`
+		abt.inconclusive += 1
+		Object.assign(abt.hosts[k1][k2], { [url]: null })
+		tslog += `<br> ${url} - inconclusive (${reason})`
+	} else {
+		// No response, or the blocker's own response --> ads are blocked
+		const reason = blockedByRedirect ? ' (redirect)' : ''
+		hostDiv.innerHTML = `${icons.v}<span>${url}</span>`
+		abt.blocked += 1
+		Object.assign(abt.hosts[k1][k2], { [url]: true })
+		tslog += `<br> ${url} - blocked${reason}`
 	}
 }
 
@@ -177,6 +234,7 @@ function collapse_category(cc, c) {
 // Function to fetch all the tests
 async function fetchTests() {
 	let fetches = []
+	await checkNetwork()
 	Object.keys(data).forEach((key) => {
 		if (key == 'default') return
 		var catEl = document.createElement('div')
@@ -197,9 +255,10 @@ async function fetchTests() {
 		catEl.appendChild(dd_1)
 		var i = 0
 		Object.keys(category).forEach((keyC) => {
-			var testInfo = document.createElement('div')
-			var tests_count = 0
-			var div = document.createElement('div')
+			if (keyC === 'India Apps' && settings.showRegional !== true) return
+			const testInfo = document.createElement('div')
+			let tests_count = 0
+			const div = document.createElement('div')
 			const dw = document.createElement('div')
 			div.classList.add('test')
 			div.id = keyC
@@ -216,10 +275,10 @@ async function fetchTests() {
 			i++
 			Object.assign(abt.hosts[key], { [keyC]: {} })
 			if (Object.prototype.hasOwnProperty.call(category, keyC)) {
-				var value = category[keyC]
-				for (let i = 0; i < value.length; i++) {
+				const value = category[keyC]
+				for (const host of value) {
 					fetches.push(
-						check_url(value[i], dw, div, key, keyC).then(() => {
+						check_url(host, dw, div, key, keyC).then(() => {
 							set_liquid()
 						})
 					)
@@ -445,7 +504,7 @@ const el = (l) => {
 	return document.querySelector(l)
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 	new navbar()
 	new themeManager()
 	new gotop()
@@ -476,33 +535,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		setTimeout(() => {
 			stopAdBlockTesting()
 			add_report()
-			var tsl = document.createElement('div')
-			tslog +=
-				'<br>-----<br> Total : ' +
-				abt.total +
-				'<br> Blocked : ' +
-				abt.blocked +
-				'<br> Not Blocked : ' +
-				abt.notblocked
+			const tsl = document.createElement('div')
+			const inconclusive = abt.inconclusive
+				? `<br> Inconclusive : ${abt.inconclusive}`
+				: ''
+			tslog += `<br>-----<br> Total : ${abt.total}<br> Blocked : ${abt.blocked}<br> Not Blocked : ${abt.notblocked}${inconclusive}`
 			tsl.innerHTML = tslog
 			test_log.appendChild(tsl)
 			fadeIn(document.querySelector('#adb_test'), 'flex')
 			const r = document.querySelector('#adb_test_r')
 
-			r.innerHTML =
-				'<span>' +
-				icons['cdot'] +
-				' Total : ' +
-				abt.total +
-				'</span><span>' +
-				icons['v'] +
-				' ' +
-				abt.blocked +
-				' blocked</span><span>' +
-				icons['x'] +
-				' ' +
-				abt.notblocked +
-				' not blocked </span>'
+			r.innerHTML = `<span>${icons.cdot} Total : ${abt.total}</span><span>${icons.v} ${abt.blocked} blocked</span><span>${icons.x} ${abt.notblocked} not blocked </span>`
 		}, 2000)
 	})
 
@@ -510,13 +553,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		location.reload(true)
 	})
 	const stxt =
-		'https://raw.githubusercontent.com/d3ward/toolz/master/src/d3host.txt'
+		'https://raw.githubusercontent.com/crazyuploader/ad-test-toolz/main/src/d3host.txt'
 	const sadblock =
-		'https://raw.githubusercontent.com/d3ward/toolz/master/src/d3host.adblock'
-	document.querySelector('#d3H_txt').addEventListener('click', function () {
+		'https://raw.githubusercontent.com/crazyuploader/ad-test-toolz/main/src/d3host.adblock'
+	document.querySelector('#d3H_txt').addEventListener('click', () => {
 		copyToClip(stxt)
 	})
-	el('#d3H_adblock').addEventListener('click', function () {
+	el('#d3H_adblock').addEventListener('click', () => {
 		copyToClip(sadblock)
 	})
 })

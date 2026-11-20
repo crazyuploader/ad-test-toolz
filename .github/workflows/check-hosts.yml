@@ -1,0 +1,27 @@
+name: Check hosts
+
+# Finds hosts in the list that are dead or have a bad certificate. The web
+# test counts these hosts as blocked, so they give a false pass.
+on:
+    pull_request:
+        paths:
+            - src/data/adblock_data.json
+            - src/script/check_hosts.mjs
+    schedule:
+        - cron: '0 3 * * 1'
+    workflow_dispatch:
+
+jobs:
+    check-hosts:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout branch
+              uses: actions/checkout@v7
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 22
+
+            - name: Check hosts
+              run: node src/script/check_hosts.mjs

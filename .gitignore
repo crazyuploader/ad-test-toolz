@@ -6,3 +6,4 @@
 .env
 .env.local
 .env.development
+/.playwright-mcp

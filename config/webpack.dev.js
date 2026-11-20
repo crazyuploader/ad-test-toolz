@@ -6,13 +6,16 @@ module.exports = merge(main, {
 	mode: 'development',
 	devServer: {
 		static: {
-			directory: config.dist,
+			directory: config.build,
 			publicPath: '/'
 		},
 		compress: true,
 		port: 3000,
 		hot: true,
 		open: '/',
-		historyApiFallback: true
+		historyApiFallback: true,
+		// Show only build errors over the page. The Sass deprecation
+		// warnings stay in the terminal.
+		client: { overlay: { errors: true, warnings: false } }
 	}
 })
