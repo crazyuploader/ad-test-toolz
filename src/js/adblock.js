@@ -256,9 +256,9 @@ async function fetchTests() {
 		var i = 0
 		Object.keys(category).forEach((keyC) => {
 			if (keyC === 'India Apps' && settings.showRegional !== true) return
-			var testInfo = document.createElement('div')
-			var tests_count = 0
-			var div = document.createElement('div')
+			const testInfo = document.createElement('div')
+			let tests_count = 0
+			const div = document.createElement('div')
 			const dw = document.createElement('div')
 			div.classList.add('test')
 			div.id = keyC
@@ -275,10 +275,10 @@ async function fetchTests() {
 			i++
 			Object.assign(abt.hosts[key], { [keyC]: {} })
 			if (Object.prototype.hasOwnProperty.call(category, keyC)) {
-				var value = category[keyC]
-				for (let i = 0; i < value.length; i++) {
+				const value = category[keyC]
+				for (const host of value) {
 					fetches.push(
-						check_url(value[i], dw, div, key, keyC).then(() => {
+						check_url(host, dw, div, key, keyC).then(() => {
 							set_liquid()
 						})
 					)
@@ -504,7 +504,7 @@ const el = (l) => {
 	return document.querySelector(l)
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 	new navbar()
 	new themeManager()
 	new gotop()
@@ -535,36 +535,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		setTimeout(() => {
 			stopAdBlockTesting()
 			add_report()
-			var tsl = document.createElement('div')
-			tslog +=
-				'<br>-----<br> Total : ' +
-				abt.total +
-				'<br> Blocked : ' +
-				abt.blocked +
-				'<br> Not Blocked : ' +
-				abt.notblocked +
-				(abt.inconclusive
-					? `<br> Inconclusive : ${abt.inconclusive}`
-					: '')
+			const tsl = document.createElement('div')
+			const inconclusive = abt.inconclusive
+				? `<br> Inconclusive : ${abt.inconclusive}`
+				: ''
+			tslog += `<br>-----<br> Total : ${abt.total}<br> Blocked : ${abt.blocked}<br> Not Blocked : ${abt.notblocked}${inconclusive}`
 			tsl.innerHTML = tslog
 			test_log.appendChild(tsl)
 			fadeIn(document.querySelector('#adb_test'), 'flex')
 			const r = document.querySelector('#adb_test_r')
 
-			r.innerHTML =
-				'<span>' +
-				icons['cdot'] +
-				' Total : ' +
-				abt.total +
-				'</span><span>' +
-				icons['v'] +
-				' ' +
-				abt.blocked +
-				' blocked</span><span>' +
-				icons['x'] +
-				' ' +
-				abt.notblocked +
-				' not blocked </span>'
+			r.innerHTML = `<span>${icons.cdot} Total : ${abt.total}</span><span>${icons.v} ${abt.blocked} blocked</span><span>${icons.x} ${abt.notblocked} not blocked </span>`
 		}, 2000)
 	})
 
@@ -575,10 +556,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		'https://raw.githubusercontent.com/crazyuploader/ad-test-toolz/main/src/d3host.txt'
 	const sadblock =
 		'https://raw.githubusercontent.com/crazyuploader/ad-test-toolz/main/src/d3host.adblock'
-	document.querySelector('#d3H_txt').addEventListener('click', function () {
+	document.querySelector('#d3H_txt').addEventListener('click', () => {
 		copyToClip(stxt)
 	})
-	el('#d3H_adblock').addEventListener('click', function () {
+	el('#d3H_adblock').addEventListener('click', () => {
 		copyToClip(sadblock)
 	})
 })
