@@ -4,6 +4,9 @@
 import { readFile, writeFile } from 'node:fs/promises'
 
 const DATA = new URL('../data/adblock_data.json', import.meta.url)
+// The site that runs the test. The cosmetic and script rules in the adblock
+// list apply only on this domain.
+const SITE = 'ad-test.devjugal.com'
 
 function center(s, max, c) {
 	return s
@@ -21,7 +24,7 @@ function header(entries, date, comment) {
 		' License: CC BY-NC-SA',
 		` Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host${ext}`,
 		'',
-		' This list cover all the tests on https://d3ward.github.io/toolz/adblock',
+		` This list covers all the tests on https://${SITE}/adblock`,
 		' Type : Stable',
 		` Entries : ${entries}`,
 		` Updated On: ${date}`,
@@ -45,8 +48,7 @@ function build(obj, comment, pre, post) {
 		}
 	}
 	if (pre === '||')
-		txt +=
-			'\n*$3p,domain=d3ward.github.io\n/pagead.js$domain=d3ward.github.io\n@@*$redirect-rule,domain=d3ward.github.io\nd3ward.github.io##.textads'
+		txt += `\n*$3p,domain=${SITE}\n/pagead.js$domain=${SITE}\n@@*$redirect-rule,domain=${SITE}\n${SITE}##.textads`
 	const now = new Date()
 	const date = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`
 	return `${header(entries, date, comment)}${txt}`

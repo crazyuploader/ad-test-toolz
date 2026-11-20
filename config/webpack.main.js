@@ -34,7 +34,9 @@ module.exports = {
 						]
 					},
 					noErrorOnMissing: true
-				}
+				},
+				// Cloudflare Pages redirects. Old links to /adblock go to /.
+				{ from: './_redirects', to: '.' }
 			]
 		}),
 		new MiniCssExtractPlugin({
@@ -45,7 +47,7 @@ module.exports = {
 			(page) =>
 				new HTMLWebpackPlugin({
 					template: `./${page}.ejs`,
-					filename: `${page}.html`,
+					filename: config.html(page),
 					chunks: [page],
 					minify: false,
 					sources: false

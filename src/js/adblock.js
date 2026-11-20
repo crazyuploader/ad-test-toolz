@@ -16,7 +16,6 @@ var TZ = new LocalStorageManager('toolz')
 const version = packageJSON.version
 const tzversion = TZ.get('version')
 if (tzversion !== version) {
-	console.log(version, tzversion)
 	//Show changelog
 	ch_dialog.show()
 	//Set version
@@ -51,7 +50,6 @@ var snackbar = new Snackbar({
 function downloadResult(k) {
 	var r
 	results.forEach((ri) => {
-		console.log(ri['time'], k)
 		if (ri['time'] == k) r = ri
 	})
 	var data = JSON.stringify(r)
@@ -424,7 +422,6 @@ function stopAdBlockTesting() {
 		document.body.classList.remove('_overflowhidden')
 	})
 	lt_cwrap.classList.remove('start')
-	console.log(abt)
 }
 function render_tests() {
 	var r_wrap = document.querySelector('.r_wrap')
@@ -494,7 +491,6 @@ function add_report() {
 	}
 	LS.set('results', results)
 	render_tests()
-	console.log(abt)
 }
 window.onbeforeunload = function () {
 	window.scrollTo(0, 0)
@@ -509,22 +505,18 @@ document.addEventListener('DOMContentLoaded', () => {
 	new themeManager()
 	new gotop()
 	new aos()
-	console.log(settings)
 	for (const key in settings) {
 		try {
-			console.log(`${key}: ${settings[key]}`)
-
 			const c = document.querySelector('#' + key)
 			c.checked = settings[key]
 			c.addEventListener('change', () => {
 				settings[key] = c.checked
-				console.log(key, c.checked)
 				if (key == 'collapseAll')
 					collapse_category(settings[key], false)
 				LS.set('settings', settings)
 			})
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 		}
 	}
 	render_tests()
