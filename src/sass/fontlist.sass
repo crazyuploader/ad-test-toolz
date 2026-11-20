@@ -1,55 +1,38 @@
 @charset "utf-8"
 
-@import "./settings/variables"
-@import "./theme/light"
-@import "./theme/dark"
-html
-	--primary: var(--orange) !important
-	--primary-h: var(--orange-h)!important
-	--primary-l: var(--orange-l)!important
-	--primary-d: var(--orange-d)!important
-	--slider-color: var(--primary-l)
-	--slider-thumb-color: #fff
+@use "./settings/variables"
+@use "./theme/light"
+@use "./theme/dark"
+@use "./extra/fontlist_page"
+@use "./base/basic"
+@use "./extra/aos"
+@use "./elements/typography"
+@use "./elements/form"
 
-body
-	background-color: var(--primary)
-	background-image: linear-gradient(315deg, var(--primary)0%, var(--primary-l)74%)
-	background-size: 200% 100%
-	height: auto
-#flist
-	display: grid
-	grid-gap: .5rem
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+@use "./layout/navbar"
+@use "./layout/header"
+@use "./layout/container"
+@use "./layout/grid"
+@use "./layout/footer"
+@use "./elements/code"
+@use "./elements/button"
+@use "./components/card"
+@use "./components/modal"
+@use "./components/snackbar"
+@use "./components/gotop_link"
+@use "./extra/tooltip"
+@use "./extra/alert"
 
-@import "./base/basic"
-@import "./extra/aos"
-@import "./elements/typography"
-@import "./elements/form"
-
-@import "./layout/navbar"
-@import "./layout/header"
-@import "./layout/container"
-@import "./layout/grid"
-@import "./layout/footer"
-@import "./elements/code"
-@import "./elements/button"
-@import "./components/card"
-@import "./components/modal"
-@import "./components/snackbar"
-@import "./components/gotop_link"
-@import "./extra/tooltip"
-@import "./extra/alert"
-
-@import "./utilities/alignment"
-@import "./utilities/position"
-@import "./utilities/background"
-@import "./utilities/border"
-@import "./utilities/display"
-@import "./utilities/margin"
-@import "./utilities/general"
-@import "./utilities/padding"
-@import "./utilities/spacer"
-@import "./utilities/text"
+@use "./utilities/alignment"
+@use "./utilities/position"
+@use "./utilities/background"
+@use "./utilities/border"
+@use "./utilities/display"
+@use "./utilities/margin"
+@use "./utilities/general"
+@use "./utilities/padding"
+@use "./utilities/spacer"
+@use "./utilities/text"
 
 #results>span
 	display: flex
