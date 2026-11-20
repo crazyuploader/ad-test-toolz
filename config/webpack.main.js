@@ -63,11 +63,6 @@ module.exports = {
 				use: ['html-loader', 'template-ejs-loader']
 			},
 			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				use: 'babel-loader'
-			},
-			{
 				test: /\.(sa|sc|c)ss$/,
 				use: [
 					MiniCssExtractPlugin.loader, // Extract CSS from commonjs

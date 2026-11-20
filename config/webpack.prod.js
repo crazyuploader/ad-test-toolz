@@ -1,6 +1,5 @@
 const main = require('./webpack.main')
 const { merge } = require('webpack-merge')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = merge(main, {
@@ -13,5 +12,7 @@ module.exports = merge(main, {
 			})
 		]
 	},
-	plugins: [new CleanWebpackPlugin()]
+	output: {
+		clean: true
+	}
 })

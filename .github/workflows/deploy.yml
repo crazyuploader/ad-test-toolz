@@ -3,7 +3,7 @@ name: Deploy to gh-pages
 on:
     push:
         branches:
-            - master
+            - main
     workflow_dispatch:
 
 jobs:
@@ -14,19 +14,26 @@ jobs:
             - name: Checkout branch
               uses: actions/checkout@v7
 
-            - name: Clean install dependencies
-              run: npm install
+            - name: Set up pnpm
+              uses: pnpm/action-setup@v6
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 22
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
             - name: Build app
-              run: npm run build
+              run: pnpm build
 
             - name: Purge
-              run: npm run purge
+              run: pnpm purge
 
             - name: deploy
               uses: peaceiris/actions-gh-pages@v4.1.0
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./dist
-              env:
-                  ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'

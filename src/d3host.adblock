@@ -1,145 +1,50 @@
 ! Title: d3Host List by d3ward
 ! Expires: 1 days
 ! Description: Simple and small list with the most popular advertising, tracking, analytics and social advertising services
-! Homepage: https://github.com/d3ward/toolz
+! Homepage: https://github.com/crazyuploader/ad-test-toolz
 ! License: CC BY-NC-SA
-! Source: https://github.com/d3ward/toolz/blob/master/src/d3host.adblock
+! Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host.adblock
 
 ! This list cover all the tests on https://d3ward.github.io/toolz/adblock
 ! Type : Stable
-! Entries : 131
-! Updated On: 23/5/2024
+! Entries : 234
+! Updated On: 20/11/2026
 ! Created by: d3ward
 
 !============ Ads =============
-
-! --- Amazon
-||adtago.s3.amazonaws.com^
-||analyticsengine.s3.amazonaws.com^
-||analytics.s3.amazonaws.com^
-||advice-ads.s3.amazonaws.com^
 
 ! --- Google Ads
 ||pagead2.googlesyndication.com^
 ||adservice.google.com^
 ||pagead2.googleadservices.com^
 ||afs.googlesyndication.com^
-
-! --- Doubleclick.net
+||tpc.googlesyndication.com^
+||www.googletagservices.com^
+||ade.googlesyndication.com^
+||ep1.adtrafficquality.google^
 ||stats.g.doubleclick.net^
 ||ad.doubleclick.net^
 ||static.doubleclick.net^
 ||m.doubleclick.net^
 ||mediavisor.doubleclick.net^
+||googleads.g.doubleclick.net^
+||pubads.g.doubleclick.net^
+||securepubads.g.doubleclick.net^
+||s0.2mdn.net^
+||ads.youtube.com^
 
-! --- Adcolony
-||ads30.adcolony.com^
-||adc3-launch.adcolony.com^
-||events3alt.adcolony.com^
-||wd.adcolony.com^
+! --- Amazon
+||adtago.s3.amazonaws.com^
+||analyticsengine.s3.amazonaws.com^
+||analytics.s3.amazonaws.com^
+||advice-ads.s3.amazonaws.com^
+||mads.amazon-adsystem.com^
+||aax-eu.amazon-adsystem.com^
+||c.amazon-adsystem.com^
 
 ! --- Media.net
 ||static.media.net^
 ||media.net^
-||adservetx.media.net^
-
-
-!========= Analytics ==========
-
-! --- Google Analytics
-||analytics.google.com^
-||click.googleanalytics.com^
-||google-analytics.com^
-||ssl.google-analytics.com^
-
-! --- Hotjar
-||adm.hotjar.com^
-||identify.hotjar.com^
-||insights.hotjar.com^
-||script.hotjar.com^
-||surveys.hotjar.com^
-||careers.hotjar.com^
-||events.hotjar.io^
-
-! --- MouseFlow
-||mouseflow.com^
-||cdn.mouseflow.com^
-||o2.mouseflow.com^
-||gtm.mouseflow.com^
-||api.mouseflow.com^
-||tools.mouseflow.com^
-||cdn-test.mouseflow.com^
-
-! --- FreshWorks
-||freshmarketer.com^
-||claritybt.freshmarketer.com^
-||fwtracks.freshmarketer.com^
-
-! --- Luckyorange
-||luckyorange.com^
-||api.luckyorange.com^
-||realtime.luckyorange.com^
-||cdn.luckyorange.com^
-||w1.luckyorange.com^
-||upload.luckyorange.net^
-||cs.luckyorange.net^
-||settings.luckyorange.net^
-
-! --- Stats WP Plugin
-||stats.wp.com^
-
-
-!======= Error Trackers =======
-
-! --- Bugsnag
-||notify.bugsnag.com^
-||sessions.bugsnag.com^
-||api.bugsnag.com^
-||app.bugsnag.com^
-
-! --- Sentry
-||browser.sentry-cdn.com^
-||app.getsentry.com^
-
-
-!====== Social Trackers =======
-
-! --- Facebook
-||pixel.facebook.com^
-||an.facebook.com^
-
-! --- Twitter
-||static.ads-twitter.com^
-||ads-api.twitter.com^
-
-! --- LinkedIn
-||ads.linkedin.com^
-||analytics.pointdrive.linkedin.com^
-
-! --- Pinterest
-||ads.pinterest.com^
-||log.pinterest.com^
-||analytics.pinterest.com^
-||trk.pinterest.com^
-
-! --- Reddit
-||events.reddit.com^
-||events.redditmedia.com^
-
-! --- YouTube
-||ads.youtube.com^
-
-! --- TikTok
-||ads-api.tiktok.com^
-||analytics.tiktok.com^
-||ads-sg.tiktok.com^
-||analytics-sg.tiktok.com^
-||business-api.tiktok.com^
-||ads.tiktok.com^
-||log.byteoversea.com^
-
-
-!============ Mix =============
 
 ! --- Yahoo
 ||ads.yahoo.com^
@@ -160,12 +65,231 @@
 ||metrika.yandex.ru^
 ||offerwall.yandex.net^
 ||adfox.yandex.ru^
+||report.appmetrica.yandex.net^
+||startup.mobile.yandex.net^
+
+
+!========= Mobile Ads =========
 
 ! --- Unity
 ||auction.unityads.unity3d.com^
 ||webview.unityads.unity3d.com^
 ||config.unityads.unity3d.com^
 ||adserver.unityads.unity3d.com^
+||gateway.unityads.unity3d.com^
+||cdp.cloud.unity3d.com^
+
+! --- AppLovin
+||ms.applovin.com^
+||rt.applovin.com^
+||ms.applvn.com^
+
+! --- InMobi
+||config.inmobi.com^
+||ads.inmobi.com^
+||telemetry.sdk.inmobi.com^
+||s-in.ls.glanceapis.com^
+
+! --- Vungle
+||config.ads.vungle.com^
+||logs.ads.vungle.com^
+||rtb.ads.vungle.com^
+
+! --- Pangle
+||api16-access-wf-sg.pangle.io^
+||api16-dual-event-sg2.pangle.io^
+||api16-access-ttp.tiktokpangle.us^
+
+! --- Adcolony
+||ads30.adcolony.com^
+||adc3-launch.adcolony.com^
+||events3alt.adcolony.com^
+||wd.adcolony.com^
+
+
+!========= Analytics ==========
+
+! --- Google Analytics
+||analytics.google.com^
+||click.googleanalytics.com^
+||google-analytics.com^
+||ssl.google-analytics.com^
+||www.google-analytics.com^
+||www.googletagmanager.com^
+||app-measurement.com^
+||firebaselogging-pa.googleapis.com^
+||firebaselogging.googleapis.com^
+
+! --- Hotjar
+||adm.hotjar.com^
+||identify.hotjar.com^
+||insights.hotjar.com^
+||script.hotjar.com^
+||surveys.hotjar.com^
+||careers.hotjar.com^
+
+! --- MouseFlow
+||mouseflow.com^
+||cdn.mouseflow.com^
+||o2.mouseflow.com^
+||api.mouseflow.com^
+||tools.mouseflow.com^
+||cdn-test.mouseflow.com^
+
+! --- Luckyorange
+||luckyorange.com^
+||api.luckyorange.com^
+||realtime.luckyorange.com^
+||cdn.luckyorange.com^
+||w1.luckyorange.com^
+||upload.luckyorange.net^
+||cs.luckyorange.net^
+||settings.luckyorange.net^
+
+! --- FreshWorks
+||freshmarketer.com^
+||claritybt.freshmarketer.com^
+||fwtracks.freshmarketer.com^
+
+! --- Amplitude
+||api.eu.amplitude.com^
+||api2.amplitude.com^
+||sr-client-cfg.amplitude.com^
+
+! --- Adobe
+||assets.adobedtm.com^
+||dpm.demdex.net^
+
+! --- Other Analytics
+||www.clarity.ms^
+||census-app.scorecardresearch.com^
+||sb.scorecardresearch.com^
+||events.statsigapi.net^
+||statsigapi.net^
+||stats.wp.com^
+
+
+!======== Mobile Apps =========
+
+! --- CleverTap
+||clevertap-prod.com^
+||in1.clevertap-prod.com^
+||in1-spiky.clevertap-prod.com^
+||eu1-spiky.clevertap-prod.com^
+
+! --- MoEngage
+||sdk-01.moengage.com^
+||sdk-03.moengage.com^
+
+! --- Attribution
+||launches.af-sdk.com^
+||inapps.af-sdk.com^
+||cdn-settings.af-sdk.com^
+||conversions.af-sdk.com^
+||sdk-api-v1.singular.net^
+
+! --- Truecaller
+||ads-config-engine-noneu.truecaller.com^
+||ads-router-noneu.truecaller.com^
+||ads-segment-profile-noneu.truecaller.com^
+||batchlogging4-noneu.truecaller.com^
+
+! --- India Apps
+||analytics.angelone.in^
+||secured-app-telemetry.growwinfra.in^
+||analytics.swiggy.com^
+||jumbo.blinkit.com^
+||jumbo.zomato.com^
+||collect.media.jio.com^
+||digianalytics.airtel.in^
+
+
+!====== Social Trackers =======
+
+! --- Facebook
+||pixel.facebook.com^
+||an.facebook.com^
+
+! --- Twitter
+||static.ads-twitter.com^
+||ads-api.twitter.com^
+||ads-api.x.com^
+
+! --- LinkedIn
+||ads.linkedin.com^
+||analytics.pointdrive.linkedin.com^
+
+! --- Pinterest
+||ads.pinterest.com^
+||log.pinterest.com^
+||analytics.pinterest.com^
+||trk.pinterest.com^
+
+! --- Reddit
+||events.reddit.com^
+||events.redditmedia.com^
+||w3-reporting.reddit.com^
+||alb.reddit.com^
+
+! --- TikTok
+||ads-api.tiktok.com^
+||analytics.tiktok.com^
+||ads-sg.tiktok.com^
+||analytics-sg.tiktok.com^
+||business-api.tiktok.com^
+||ads.tiktok.com^
+||log.byteoversea.com^
+
+! --- Snapchat
+||app-analytics-v2.snapchat.com^
+
+
+!========= Telemetry ==========
+
+! --- Bugsnag
+||notify.bugsnag.com^
+||sessions.bugsnag.com^
+||api.bugsnag.com^
+||app.bugsnag.com^
+
+! --- Sentry
+||browser.sentry-cdn.com^
+||app.getsentry.com^
+
+! --- Crashlytics
+||firebase-settings.crashlytics.com^
+||crashlyticsreports-pa.googleapis.com^
+
+! --- New Relic
+||mobile-collector.newrelic.com^
+||js-agent.newrelic.com^
+
+! --- Datadog
+||browser-intake-datadoghq.com^
+||browser-intake-us5-datadoghq.com^
+
+! --- Other Crash Reporters
+||pro.bugly.qq.com^
+||in.appcenter.ms^
+
+! --- Microsoft
+||mobile.events.data.microsoft.com^
+||self.events.data.microsoft.com^
+||mobile.pipe.aria.microsoft.com^
+||eu-mobile.events.data.microsoft.com^
+||teams.events.data.microsoft.com^
+||telemetry.api.swiftkey.com^
+
+! --- Amazon
+||unagi-eu.amazon.com^
+||api.mshop.bdtelemetry.amazon^
+||det-ta-g7g.amazon.com^
+||global.telemetry.insights.video.a2z.com^
+
+! --- Desktop Apps
+||incoming.telemetry.mozilla.org^
+||collector.github.com^
+||slackb.com^
 
 
 !============ OEMs ============
@@ -184,12 +308,23 @@
 ||sdkconfig.ad.xiaomi.com^
 ||sdkconfig.ad.intl.xiaomi.com^
 ||tracking.rus.miui.com^
+||sdkconfig.ad.india.xiaomi.com^
+||api.ad.intl.xiaomi.com^
+||tracking.miui.com^
+||tracking.india.miui.com^
+||sdkconfig.india.xiaomi.com^
+||mcc-intl.inf.miui.com^
 
 ! --- Oppo
 ||adsfs.oppomobile.com^
 ||adx.ads.oppomobile.com^
 ||ck.ads.oppomobile.com^
 ||data.ads.oppomobile.com^
+||obus-in.dc.heytapmobile.com^
+||dc-stat-in.heytapmobile.com^
+||adx-in.ads.heytapmobile.com^
+||adsfs-in.oppomobile.com^
+||mdp-usertrace-in.heytapmobile.com^
 
 ! --- Huawei
 ||metrics.data.hicloud.com^
@@ -200,15 +335,18 @@
 ||logbak.hicloud.com^
 
 ! --- OnePlus
-||click.oneplus.cn^
 ||open.oneplus.net^
 
 ! --- Samsung
 ||samsungads.com^
 ||smetrics.samsung.com^
-||nmetrics.samsung.com^
 ||samsung-com.112.2o7.net^
 ||analytics-api.samsunghealthcn.com^
+||dc.dqa.samsung.com^
+||diagmon-serviceapi.samsungdm.com^
+||dc.di.atlas.samsung.com^
+||dls.di.atlas.samsung.com^
+||ddf.di.atlas.samsung.com^
 
 ! --- Apple
 ||iadsdk.apple.com^
@@ -218,6 +356,10 @@
 ||books-analytics-events.apple.com^
 ||weather-analytics-events.apple.com^
 ||notes-analytics-events.apple.com^
+
+! --- Transsion
+||ib.isappcloud.com^
+||ape-androids.isappcloud.com^
 
 *$3p,domain=d3ward.github.io
 /pagead.js$domain=d3ward.github.io
