@@ -110,7 +110,7 @@ async function doh(endpoint, name, type = 1) {
 }
 
 async function resolvePublic(name) {
-	let lastErr
+	let lastErr = null
 	for (const endpoint of PUBLIC_DOH) {
 		try {
 			return await doh(endpoint, name)
@@ -121,7 +121,7 @@ async function resolvePublic(name) {
 	throw lastErr
 }
 
-// --- HTTPS request to the address from the DoH answer ----------------------------------
+// --- HTTPS request to the address from the DoH answer -----------------
 
 function httpsProbe(host, ip) {
 	return new Promise((resolve) => {
@@ -134,7 +134,7 @@ function httpsProbe(host, ip) {
 				timeout: TIMEOUT,
 				headers: { 'user-agent': 'toolz-host-check' },
 				lookup: (_h, opts, cb) =>
-					opts && opts.all
+					opts?.all
 						? cb(null, [{ address: ip, family: 4 }])
 						: cb(null, ip, 4)
 			},
@@ -152,12 +152,9 @@ function httpsProbe(host, ip) {
 }
 
 async function checkLive(host) {
-	let dns
-	try {
-		dns = await resolvePublic(host)
-	} catch (err) {
-		return { host, ok: false, detail: `DoH error: ${err.message}` }
-	}
+	const dns = await resolvePublic(host).catch((err) => ({ err }))
+	if (dns.err)
+		return { host, ok: false, detail: `DoH error: ${dns.err.message}` }
 	const v4 = dns.addresses.filter((a) => a.includes('.'))
 	if (dns.rcode !== 'NOERROR' || v4.length === 0)
 		return { host, ok: false, detail: `DNS ${dns.rcode}, no A record` }
@@ -220,9 +217,12 @@ const results = await pool(entries, Number(args.concurrency), async (e) => ({
 		: await checkLive(e.host))
 }))
 
+// Node script output. Write to stdout, not to the browser console.
+const print = (text = '') => process.stdout.write(`${text}\n`)
+
 const failed = results.filter((r) => !r.ok)
 if (args.json) {
-	console.log(JSON.stringify({ mode, results }, null, '\t'))
+	print(JSON.stringify({ mode, results }, null, '\t'))
 } else {
 	const okLabel = mode === 'live' ? 'live' : 'blocked'
 	const badLabel = mode === 'live' ? 'dead' : 'NOT blocked'
@@ -230,13 +230,13 @@ if (args.json) {
 		const tag = r.ok
 			? styleText('green', okLabel.padEnd(11))
 			: styleText('red', badLabel.padEnd(11))
-		console.log(
+		print(
 			`${tag} ${r.category} / ${r.group}  ${r.host}  ${styleText('dim', r.detail)}`
 		)
 	}
-	console.log(
-		`\n${results.length - failed.length}/${results.length} ${okLabel}` +
-			(failed.length ? `, ${failed.length} ${badLabel}` : '')
+	const failNote = failed.length ? `, ${failed.length} ${badLabel}` : ''
+	print(
+		`\n${results.length - failed.length}/${results.length} ${okLabel}${failNote}`
 	)
 }
 process.exitCode = failed.length ? 1 : 0

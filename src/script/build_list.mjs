@@ -19,16 +19,15 @@ function header(entries, date, comment) {
 		' Description: Simple and small list with the most popular advertising, tracking, analytics and social advertising services',
 		' Homepage: https://github.com/crazyuploader/ad-test-toolz',
 		' License: CC BY-NC-SA',
-		' Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host' +
-			ext,
+		` Source: https://github.com/crazyuploader/ad-test-toolz/blob/main/src/d3host${ext}`,
 		'',
 		' This list cover all the tests on https://d3ward.github.io/toolz/adblock',
 		' Type : Stable',
-		' Entries : ' + entries,
-		' Updated On: ' + date,
+		` Entries : ${entries}`,
+		` Updated On: ${date}`,
 		' Created by: d3ward'
 	]
-		.map((l) => (l === '' ? '' : comment + l))
+		.map((line) => (line === '' ? '' : `${comment}${line}`))
 		.join('\n')
 }
 
@@ -36,12 +35,12 @@ function build(obj, comment, pre, post) {
 	let txt = ''
 	let entries = 0
 	for (const [category, groups] of Object.entries(obj)) {
-		txt += '\n\n' + comment + center(' ' + category + ' ', 30, '=') + '\n'
+		txt += `\n\n${comment}${center(` ${category} `, 30, '=')}\n`
 		for (const [group, hosts] of Object.entries(groups)) {
-			txt += '\n' + comment + ' --- ' + group + '\n'
+			txt += `\n${comment} --- ${group}\n`
 			for (const host of hosts) {
 				entries++
-				txt += pre + host + post + '\n'
+				txt += `${pre}${host}${post}\n`
 			}
 		}
 	}
@@ -50,7 +49,7 @@ function build(obj, comment, pre, post) {
 			'\n*$3p,domain=d3ward.github.io\n/pagead.js$domain=d3ward.github.io\n@@*$redirect-rule,domain=d3ward.github.io\nd3ward.github.io##.textads'
 	const now = new Date()
 	const date = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`
-	return header(entries, date, comment) + txt
+	return `${header(entries, date, comment)}${txt}`
 }
 
 const data = JSON.parse(await readFile(DATA, 'utf8'))
@@ -63,5 +62,5 @@ const outputs = [
 ]
 for (const [file, content] of outputs) {
 	await writeFile(file, content, 'utf8')
-	console.log('Created ' + file.pathname)
+	process.stdout.write(`Created ${file.pathname}\n`)
 }

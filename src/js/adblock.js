@@ -34,8 +34,8 @@ if (!settings || settings['showCF'] == undefined) {
 	}
 	LS.set('settings', settings)
 }
-if (settings['showRegional'] == undefined) {
-	settings['showRegional'] = true
+if (settings.showRegional === undefined) {
+	settings.showRegional = true
 	LS.set('settings', settings)
 }
 
@@ -91,7 +91,7 @@ async function copyToClip(str) {
 		snackbar.show('URL copied to clipboard !')
 	}
 }
-var abt = {
+const abt = {
 	total: 0,
 	blocked: 0,
 	notblocked: 0,
@@ -129,6 +129,25 @@ const CONTROL_URLS = [
 ]
 let networkOk = true
 
+// The test sends at most MAX_PARALLEL requests at the same time. Without a
+// limit, the browser queues the requests, and the time in the queue counts
+// toward the timeout. Then a slow queue looks like a block.
+const MAX_PARALLEL = 16
+let running = 0
+const waiting = []
+
+async function withSlot(task) {
+	if (running >= MAX_PARALLEL)
+		await new Promise((resolve) => waiting.push(resolve))
+	running += 1
+	try {
+		return await task()
+	} finally {
+		running -= 1
+		waiting.shift()?.()
+	}
+}
+
 async function probe(url) {
 	const controller = new AbortController()
 	const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT)
@@ -148,8 +167,8 @@ async function probe(url) {
 }
 
 async function checkNetwork() {
-	const results = await Promise.all(CONTROL_URLS.map((u) => probe(u)))
-	networkOk = results.some((r) => r.response)
+	const answers = await Promise.all(CONTROL_URLS.map((u) => probe(u)))
+	networkOk = answers.some((answer) => answer.response)
 	if (!networkOk) {
 		tslog +=
 			'<br> Network check failed: no control host answered. Failed host checks are shown as inconclusive.'
@@ -159,42 +178,43 @@ async function checkNetwork() {
 
 async function check_url(url, div, parent, k1, k2) {
 	abt.total += 1
-	var hostDiv = document.createElement('div')
+	const hostDiv = document.createElement('div')
 	hostDiv.onclick = () => {
 		copyToClip(url)
 	}
 	div.appendChild(hostDiv)
-	const target = 'https://' + url + '/fakepage.html'
-	let r = await probe(target)
-	// Send the request again one time after a fast failure. Then one dropped
-	// connection does not count as a block. Do not retry after a timeout,
-	// because the timeout already used 8 seconds.
-	if (r.error && !r.timedOut) r = await probe(target)
+	const target = `https://${url}/fakepage.html`
+	let result = await withSlot(() => probe(target))
+	// Send the request again one time after a failure. Then one dropped
+	// connection or one slow server does not count as a block.
+	if (result.error) result = await withSlot(() => probe(target))
 
+	const { response, error, timedOut } = result
 	const blockedByRedirect =
-		r.response && r.response.type == 'basic' && r.response.status == 200
-	if (r.response && !blockedByRedirect) {
+		response?.type === 'basic' && response?.status === 200
+	if (response && !blockedByRedirect) {
 		// Response was received --> ads are NOT blocked
 		parent.style.background = 'var(--red)'
-		hostDiv.innerHTML = icons['x'] + '<span>' + url + '</span>'
+		hostDiv.innerHTML = `${icons.x}<span>${url}</span>`
 		abt.notblocked += 1
 		Object.assign(abt.hosts[k1][k2], { [url]: false })
-		tslog += '<br> ' + url + ' - not blocked'
-	} else if (r.error && !networkOk) {
-		hostDiv.innerHTML = icons['cdot'] + '<span>' + url + '</span>'
+		tslog += `<br> ${url} - not blocked`
+	} else if (error && (timedOut || !networkOk)) {
+		// A blocker fails a request fast (0.0.0.0, NXDOMAIN, cancelled
+		// request). A timeout, or a failure while the network is down, does
+		// not show a block.
+		const reason = networkOk ? 'timeout' : 'network down'
+		hostDiv.innerHTML = `${icons.cdot}<span>${url}</span>`
 		abt.inconclusive += 1
 		Object.assign(abt.hosts[k1][k2], { [url]: null })
-		tslog += '<br> ' + url + ' - inconclusive (network down)'
+		tslog += `<br> ${url} - inconclusive (${reason})`
 	} else {
 		// No response, or the blocker's own response --> ads are blocked
-		hostDiv.innerHTML = icons['v'] + '<span>' + url + '</span>'
+		const reason = blockedByRedirect ? ' (redirect)' : ''
+		hostDiv.innerHTML = `${icons.v}<span>${url}</span>`
 		abt.blocked += 1
 		Object.assign(abt.hosts[k1][k2], { [url]: true })
-		tslog +=
-			'<br> ' +
-			url +
-			' - blocked' +
-			(r.timedOut ? ' (timeout)' : blockedByRedirect ? ' (redirect)' : '')
+		tslog += `<br> ${url} - blocked${reason}`
 	}
 }
 
@@ -235,7 +255,7 @@ async function fetchTests() {
 		catEl.appendChild(dd_1)
 		var i = 0
 		Object.keys(category).forEach((keyC) => {
-			if (keyC == 'India Apps' && settings['showRegional'] != true) return
+			if (keyC === 'India Apps' && settings.showRegional !== true) return
 			var testInfo = document.createElement('div')
 			var tests_count = 0
 			var div = document.createElement('div')
@@ -524,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				'<br> Not Blocked : ' +
 				abt.notblocked +
 				(abt.inconclusive
-					? '<br> Inconclusive : ' + abt.inconclusive
+					? `<br> Inconclusive : ${abt.inconclusive}`
 					: '')
 			tsl.innerHTML = tslog
 			test_log.appendChild(tsl)

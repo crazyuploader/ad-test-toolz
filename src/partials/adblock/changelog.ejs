@@ -20,7 +20,8 @@
 							<li>Regrouped the hosts into 7 categories: Ads, Mobile Ads, Analytics, Mobile Apps, Social Trackers, Telemetry and OEMs</li>
 							<li>Removed dead hosts that always showed as blocked</li>
 							<li>The test now checks the network first. If the network is down, failed hosts show as inconclusive.</li>
-							<li>A failed host check runs one more time. The browser cache never supplies a response.</li>
+							<li>A failed host check runs one more time. A host that times out shows as inconclusive, not blocked.</li>
+							<li>The test sends at most 16 requests at the same time. The browser cache never supplies a response.</li>
 							<li>New setting to hide regional hosts</li>
 						</ul>
 					</div>

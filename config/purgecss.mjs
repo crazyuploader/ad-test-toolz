@@ -4,6 +4,8 @@ import config from './config.js' // Make sure the config file is also compatible
 import fs from 'fs'
 import { styleText } from 'node:util'
 
+const print = (text) => process.stdout.write(`${text}\n`)
+
 const pages = config.pages
 const options = pages.map((page) => {
 	const css = path.join(config.build, `css/${page}.css`)
@@ -22,14 +24,14 @@ Promise.all(options.map((option) => new PurgeCSS().purge(option))).then(
 		results.forEach((result, i) => {
 			const css = result[0].css
 			const cssFile = path.join(config.build, `css/${pages[i]}.css`)
-			console.log(styleText('green', `File: ${cssFile}`))
-			console.log(
+			print(styleText('green', `File: ${cssFile}`))
+			print(
 				`Original size: ${(
 					fs.statSync(path.join(config.build, `css/${pages[i]}.css`))
 						.size / 1024
 				).toFixed(2)}KB`
 			)
-			console.log(`Optimized size: ${(css.length / 1024).toFixed(2)}KB`)
+			print(`Optimized size: ${(css.length / 1024).toFixed(2)}KB`)
 			fs.writeFileSync(cssFile, css)
 		})
 	}
