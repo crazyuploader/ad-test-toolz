@@ -219,7 +219,7 @@ importers:
         version: 1.108.2
       sass-loader:
         specifier: ^17.1.0
-        version: 17.1.0(sass@1.108.2)(webpack@5.113.0)
+        version: 17.1.1(sass@1.108.2)(webpack@5.113.0)
       template-ejs-loader:
         specifier: ^0.9.4
         version: 0.9.4(webpack@5.113.0)
@@ -1508,8 +1508,8 @@ packages:
     resolution: {integrity: sha512-7o1wEA2RyMP7Iu7GNba9vc0RWWGACJOCZBJX2GJWip0ikV+wcOsgVuY9uE8CPiyQhkGFSlhuSkZPavN7u1c2Fw==}
     engines: {node: '>=10'}
 
-  minimizer-webpack-plugin@5.14.0:
-    resolution: {integrity: sha512-PnvQXCJxhgH2ZVVO7Lj0sM6q8L1XGxnUvd8wVQIRwi8khMCLq5wg0Ngxe44bcuZL2FSN81RdVE7YHEVzTKsQDQ==}
+  minimizer-webpack-plugin@5.14.1:
+    resolution: {integrity: sha512-qsfTb5Ao4nre9krFweqj8k5bVU7KxgsP4WkLO/ITTuiJkbitCzYBY+Aum5KTKRhY0wDr8VJ1RILsTCSUtPd1kQ==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       '@minify-html/node': '*'
@@ -1821,8 +1821,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass-loader@17.1.0:
-    resolution: {integrity: sha512-EZ/u/bLkAErTKvIq/f81Bz6tgL/5Brt8hWOABdTsVdO+nX0PWx2rQhR6fyxVME+MhnQrrwecMDlm2G1y07hhpQ==}
+  sass-loader@17.1.1:
+    resolution: {integrity: sha512-/0DqgO+5tTsXYdbnErt5XzPbRQqD+49brZ8+vKnzOTIRbrgPlPJGghGVFq6xgAjv9pf2TLHvLdrgEYYPEKGtGQ==}
     engines: {node: '>= 22.11.0'}
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
@@ -1997,8 +1997,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.51.2:
-    resolution: {integrity: sha512-bWnjSNscmuI+GJze6ZupnHP8G/cTcsJF+bXCeQknk2SHQsgbNJnLrqiH9jZ2W4STPVXH2mDKKRX3iwPhc9Cn/Q==}
+  terser@5.51.4:
+    resolution: {integrity: sha512-VPi1CkDvCWLGUVIToctNBG+NdHbSXwOPjHJnQ3pdB0XknaldnI76wSkAFOGxV2ZdkzOP5d6gpQ5c58XvDghRvw==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2103,8 +2103,8 @@ packages:
       webpack-dev-server:
         optional: true
 
-  webpack-dev-middleware@8.6.1:
-    resolution: {integrity: sha512-XU+DA98yi8FpeI0zPEEki2t4cYKoFOf6PmXl+ocBZ/VXcxFfzeFGK48SZIuFy0o5opnRPVdDGTb71Gy102eiGg==}
+  webpack-dev-middleware@8.6.3:
+    resolution: {integrity: sha512-dDxACv07a+8mOYnQusKjndG7HEIdKJA1bimx4mCfZKu0jDaq5EbaeFaAuNtTdbkKFgg9mtmCpc5ZTjtFxszpNg==}
     engines: {node: '>= 20.9.0'}
     peerDependencies:
       webpack: ^5.101.0
@@ -3302,7 +3302,7 @@ snapshots:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.51.2
+      terser: 5.51.4
 
   html-minifier-terser@7.2.0:
     dependencies:
@@ -3312,7 +3312,7 @@ snapshots:
       entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.51.2
+      terser: 5.51.4
 
   html-webpack-plugin@5.6.8(webpack@5.113.0):
     dependencies:
@@ -3520,11 +3520,11 @@ snapshots:
     dependencies:
       brace-expansion: 2.1.8
 
-  minimizer-webpack-plugin@5.14.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack@5.113.0):
+  minimizer-webpack-plugin@5.14.1(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack@5.113.0):
     dependencies:
       jest-worker: 27.5.1
       schema-utils: 4.8.5(webpack@5.113.0)
-      terser: 5.51.2
+      terser: 5.51.4
       webpack: 5.113.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack-cli@7.3.1)
     optionalDependencies:
       clean-css: 5.3.3
@@ -3775,7 +3775,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass-loader@17.1.0(sass@1.108.2)(webpack@5.113.0):
+  sass-loader@17.1.1(sass@1.108.2)(webpack@5.113.0):
     optionalDependencies:
       sass: 1.108.2
       webpack: 5.113.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack-cli@7.3.1)
@@ -3923,14 +3923,14 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.8.5(webpack@5.113.0)
-      terser: 5.51.2
+      terser: 5.51.4
       webpack: 5.113.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack-cli@7.3.1)
     optionalDependencies:
       clean-css: 5.3.3
       html-minifier-terser: 7.2.0
       postcss: 8.5.33
 
-  terser@5.51.2:
+  terser@5.51.4:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.19.0
@@ -4012,7 +4012,7 @@ snapshots:
     optionalDependencies:
       webpack-dev-server: 6.1.0(supports-color@8.1.1)(webpack-cli@7.3.1)(webpack@5.113.0)
 
-  webpack-dev-middleware@8.6.1(webpack@5.113.0):
+  webpack-dev-middleware@8.6.3(webpack@5.113.0):
     dependencies:
       memfs: 4.80.1
       mime-db: 1.54.0
@@ -4049,7 +4049,7 @@ snapshots:
       selfsigned: 5.5.0
       serve-index: 1.9.2(supports-color@8.1.1)
       tinyglobby: 0.2.17
-      webpack-dev-middleware: 8.6.1(webpack@5.113.0)
+      webpack-dev-middleware: 8.6.3(webpack@5.113.0)
       ws: 8.23.0
     optionalDependencies:
       webpack: 5.113.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack-cli@7.3.1)
@@ -4080,7 +4080,7 @@ snapshots:
       events: 3.3.0
       graceful-fs: 4.2.12
       mime-db: 1.54.0
-      minimizer-webpack-plugin: 5.14.0(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack@5.113.0)
+      minimizer-webpack-plugin: 5.14.1(clean-css@5.3.3)(html-minifier-terser@7.2.0)(postcss@8.5.33)(webpack@5.113.0)
       schema-utils: 4.8.5(webpack@5.113.0)
       tapable: 2.3.4
       watchpack: 2.6.4
